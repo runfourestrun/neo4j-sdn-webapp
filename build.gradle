@@ -7,7 +7,6 @@ plugins {
 group = 'com.fournier'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
-def springBootStarterVersion = '2.75'
 
 
 configurations {
@@ -25,7 +24,7 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-neo4j'
-    implementation "org.springframework.boot:spring-boot-starter-web:${springBootStarterVersion}"
+    implementation 'org.springframework.boot:spring-boot-starter-web:2.7.5'
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     annotationProcessor 'org.projectlombok:lombok'

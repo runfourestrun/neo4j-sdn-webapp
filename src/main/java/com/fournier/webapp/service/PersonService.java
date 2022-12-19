@@ -9,6 +9,7 @@ import org.neo4j.driver.SessionConfig;
 import org.neo4j.driver.types.TypeSystem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.neo4j.core.DatabaseSelectionProvider;
 import org.springframework.data.neo4j.core.Neo4jClient;
 import org.springframework.stereotype.Service;
@@ -21,19 +22,18 @@ import java.util.*;
  */
 @Service
 public class PersonService {
-    private final PersonRepository personRepository;
+
     private final Neo4jClient neo4jClient;
     private final Driver driver;
     private final DatabaseSelectionProvider databaseSelectionProvider;
-    private final String fetchPersonByNameQuery = "MATCH (p:Person) {firsName: $firstName} RETURN p {.firstName, .lastName}";
+    private final String fetchPersonByNameQuery = "MATCH (p:Person{name: $name}) RETURN p {.name}";
 
     private String database;
 
     private final Logger LOG = LoggerFactory.getLogger(PersonService.class);
 
 
-    public PersonService(PersonRepository personRepository, Neo4jClient neo4jClient, Driver driver, DatabaseSelectionProvider databaseSelectionProvider){
-        this.personRepository = personRepository;
+    public PersonService( Neo4jClient neo4jClient, Driver driver, DatabaseSelectionProvider databaseSelectionProvider){
         this.neo4jClient = neo4jClient;
         this.driver = driver;
         this.databaseSelectionProvider = databaseSelectionProvider;
@@ -44,11 +44,11 @@ public class PersonService {
     /***
      * neo4jClient docs: https://docs.spring.io/spring-data/neo4j/docs/current/api/org/springframework/data/neo4j/core/Neo4jClient.BindSpec.html#bindAll(java.util.Map)
      * This approach seems much more declarative/functional than the fetchEntireGraph() method.
-     * @param firstName
+     * @param
      * @return
      */
-    public PersonDTO fetchPersonByName(String firstName){
-        Map<String, Object> personParameters = Map.of("firstName",firstName);
+    public PersonDTO fetchPersonByName(String name){
+        Map<String, Object> personParameters = Map.of("name",name);
 
         return this.neo4jClient.query(fetchPersonByNameQuery)
                 .in(database)

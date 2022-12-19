@@ -7,6 +7,11 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
+/***
+ * Can't remember why we need repositories in Spring..
+ */
+
+@org.springframework.stereotype.Repository
 public interface PersonRepository extends Repository<Person,String> {
 
 
