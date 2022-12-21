@@ -1,14 +1,14 @@
 
 
-### Building a REST app with Spring Data Neo4j 🌱🌱🌱
+## Building a microservice with Spring Data Neo4j 🌱🌱🌱
 
 ![img.png](src/main/resources/img/img.png)
 
-An example of building a microservice using Spring Data Neo4j. 
+### An example of building a microservice using Spring Data Neo4j. 
 
 > business logic is encapsulated in the PersonService class
 
-```aidl
+```java
     public PersonDTO fetchPersonByName(String name){
         Map<String, Object> personParameters = Map.of("name",name);
 
@@ -20,10 +20,10 @@ An example of building a microservice using Spring Data Neo4j.
     }
 ```
 
-> * You must pass a mapping BiFunction to Marshall the result of your Cypher query (which is returned as a Record type) into a POJO (plain old java object).
+> You must pass a mapping BiFunction to Marshall the result of your Cypher query (which is returned as a Record type) into a POJO (plain old java object).
 
 
-```aidl
+```java
 
     BiFunction<TypeSystem,Record,PersonDTO> toPersonDTO = (typeSystem, record) ->
     {
@@ -38,10 +38,10 @@ An example of building a microservice using Spring Data Neo4j.
 ```
 
 
-> * The controller actually implements the RestService. Below is a get action to fetch all Person Nodes in the Graph
+> The controller actually implements the RestService. Below is a get action to fetch all Person Nodes in the Graph
 
 
-```aidl
+```java
     @GetMapping("/people")
     public Collection<PersonDTO> getPeople(){
 
