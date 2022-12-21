@@ -1,5 +1,6 @@
 package com.fournier.webapp.service;
 
+import com.fournier.webapp.model.Person;
 import com.fournier.webapp.model.PersonDTO;
 import com.fournier.webapp.repository.PersonRepository;
 import org.neo4j.driver.Driver;
@@ -15,6 +16,7 @@ import org.springframework.data.neo4j.core.Neo4jClient;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.function.BiFunction;
 
 /***
  * @Service basically is the same as @Component
@@ -31,6 +33,20 @@ public class PersonService {
     private String database;
 
     private final Logger LOG = LoggerFactory.getLogger(PersonService.class);
+
+
+    /**
+     * This is really freaking ugly. Also I feel like I want some logging on this?
+     */
+    BiFunction<TypeSystem,Record,PersonDTO> toPersonDTO = (typeSystem, record) ->
+    {   var str = record.get("name").asString();
+        System.out.println(str);
+        PersonDTO personDTO = new PersonDTO(str);
+        System.out.println(personDTO.toString());
+        return personDTO;
+
+    };
+
 
 
     public PersonService( Neo4jClient neo4jClient, Driver driver, DatabaseSelectionProvider databaseSelectionProvider){
@@ -54,7 +70,7 @@ public class PersonService {
                 .in(database)
                 .bindAll(personParameters)
                 .fetchAs(PersonDTO.class)
-                .mappedBy(this::toPersonDTO)
+                .mappedBy(toPersonDTO)
                 .one().orElse(null);
     }
 
@@ -101,9 +117,6 @@ public class PersonService {
      * @param record
      * @return
      */
-    private PersonDTO toPersonDTO(TypeSystem ignored, Record record){
-        var person = record.get("person");
-        return new PersonDTO(person.get("name").asString());
-    }
+
 
 }

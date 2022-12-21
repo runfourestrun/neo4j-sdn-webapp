@@ -5,6 +5,7 @@ import com.fournier.webapp.model.Person;
 import com.fournier.webapp.model.PersonDTO;
 import com.fournier.webapp.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,7 +27,7 @@ public class PersonController {
 
 
     // Value is mandatory, so PathVariable makes sense here. If it wasn't mandatory, RequestParam would have been a better choice.
-    @GetMapping("/person/{name}")
+    @GetMapping(value= "/person/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
     public PersonDTO findByName(@PathVariable("name") String name){
         return personService.fetchPersonByName(name);
     }

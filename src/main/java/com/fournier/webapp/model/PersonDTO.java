@@ -12,6 +12,9 @@ public class PersonDTO {
 
     }
 
+    public String getName() {
+        return name;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -25,4 +28,13 @@ public class PersonDTO {
     public int hashCode() {
         return Objects.hash(name);
     }
+
+
+    @Override
+    public String toString() {
+        return "PersonDTO{" +
+                "name='" + name + '\'' +
+                '}';
+    }
 }
+
