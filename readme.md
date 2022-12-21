@@ -9,6 +9,10 @@
 > business logic is encapsulated in the PersonService class
 
 ```java
+
+private final String fetchPersonByNameQuery = "MATCH (p:Person{name: $name}) RETURN p {.name}";
+
+
     public PersonDTO fetchPersonByName(String name){
         Map<String, Object> personParameters = Map.of("name",name);
 
@@ -20,7 +24,7 @@
     }
 ```
 
-> You must pass a mapping BiFunction to .fetchAs() functiona above so you can marshall the result of your Cypher query (which is returned as a Record type) into a POJO (plain old java object).
+> You must pass a mapping BiFunction to .fetchAs() method above. This allows you can marshall the result of your Cypher query (which is returned as a Record type) into a POJO (plain old java object).
 
 
 ```java
@@ -46,7 +50,7 @@
 @GetMapping(value= "/person/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
 public PersonDTO findByName(@PathVariable("name") String name){
         return personService.fetchPersonByName(name);
-        }
+}
 
 
 ```
