@@ -1,8 +1,12 @@
 ### Learning Spring through building Neo4j Web Apps
 
 
-My sad attempt at building a REST API using Spring Web Starter & Spring Data Neo4j
+Building a REST app with Spring Data Neo4j 🌱🌱🌱
 
+![img.png](../../../../resources/img/img.png)
+
+##### Postman GET request "/people" 
+![img.png](../../../../resources/img/postman.png)
 
 
 #### Sending HTTP Requests can be done the following ways
