@@ -2,7 +2,7 @@
 
 ### Building a REST app with Spring Data Neo4j 🌱🌱🌱
 
-![img.png](IdeaProjects/webapp/src/main/resources/img/img.png)
+![img.png](src/main/resources/img/img.png)
 
 
 
