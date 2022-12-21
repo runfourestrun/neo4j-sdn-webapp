@@ -4,16 +4,23 @@ import java.util.Objects;
 
 public class PersonDTO {
     private final String name;
+    private final int age;
 
 
-    public PersonDTO(String name){
+    public PersonDTO(String name,int age){
 
         this.name = name;
+        this.age = age;
+
 
     }
 
     public String getName() {
         return name;
+    }
+
+    public int getAge() {
+        return age;
     }
 
     @Override
@@ -29,11 +36,11 @@ public class PersonDTO {
         return Objects.hash(name);
     }
 
-
     @Override
     public String toString() {
         return "PersonDTO{" +
                 "name='" + name + '\'' +
+                ", age=" + age +
                 '}';
     }
 }

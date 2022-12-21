@@ -34,17 +34,17 @@ public class PersonService {
 
     private final Logger LOG = LoggerFactory.getLogger(PersonService.class);
 
-
-    /**
-     * This is really freaking ugly. Also I feel like I want some logging on this?
+    /***
+     * This lambda field is grossssss.
      */
     BiFunction<TypeSystem,Record,PersonDTO> toPersonDTO = (typeSystem, record) ->
-    {   var str = record.get("name").asString();
-        System.out.println(str);
-        PersonDTO personDTO = new PersonDTO(str);
-        System.out.println(personDTO.toString());
-        return personDTO;
+    {
+        var result_map = record.get(0).asMap();
+        var name = (String) result_map.get("name");
+        var age = ((Long) result_map.get("age")).intValue();
 
+        PersonDTO personDTO = new PersonDTO(name,age);
+        return personDTO;
     };
 
 
@@ -68,10 +68,21 @@ public class PersonService {
 
         return this.neo4jClient.query(fetchPersonByNameQuery)
                 .in(database)
-                .bindAll(personParameters)
                 .fetchAs(PersonDTO.class)
                 .mappedBy(toPersonDTO)
                 .one().orElse(null);
+    }
+
+
+
+    public Collection<PersonDTO> fetchAllPeople(){
+
+        String cypherQuery = "MATCH (p:Person) RETURN p";
+        return this.neo4jClient.query(cypherQuery)
+                .in(database)
+                .fetchAs(PersonDTO.class)
+                .mappedBy(toPersonDTO)
+                .all();
     }
 
 
@@ -88,7 +99,7 @@ public class PersonService {
         try (Session session = createSession(database)){
 
             var records = session.executeRead(tx -> tx.run(""
-                    + "MATCH (p:Person"
+                    + "MATCH (p:Person)"
                     + "RETURN p.name as name").list());
 
             records.forEach(record -> {

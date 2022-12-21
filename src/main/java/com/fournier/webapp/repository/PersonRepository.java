@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 /***
- * Can't remember why we need repositories in Spring..
+ * Should I use repositories...
  */
 
 @org.springframework.stereotype.Repository

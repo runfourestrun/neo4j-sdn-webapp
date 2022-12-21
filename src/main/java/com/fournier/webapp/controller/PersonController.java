@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -37,4 +38,14 @@ public class PersonController {
     public Map<String, List<Object>> getGraph(){
         return personService.fetchEntireGraph();
     }
+
+
+    @GetMapping("/people")
+    public Collection<PersonDTO> getPeople(){
+
+        return personService.fetchAllPeople();
+
+
     }
+
+}
