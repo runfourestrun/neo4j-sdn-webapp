@@ -42,7 +42,7 @@ private final String fetchPersonByNameQuery = "MATCH (p:Person{name: $name}) RET
 ```
 
 
-> The controller actually implements the RestService. Below is a get action to fetch all Person Nodes in the Graph
+> The controller actually implements the RestService. Below is a get action to fetch a single person Node from the graph (parameterized on name property)
 
 
 ```java
