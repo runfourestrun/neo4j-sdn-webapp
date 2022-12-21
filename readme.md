@@ -4,100 +4,51 @@
 
 ![img.png](src/main/resources/img/img.png)
 
+An example of building a microservice using Spring Data Neo4j. 
 
-
-
-#### Sending HTTP Requests can be done the following ways
-
-* An HTTP request parameter represents a simple way to send values from client to server in a key-value pair format. To send HTTP request parameters you append them to the URI in a request query expression
-* HTTP request headers is similar to request parameters, sent in header but don't appear in URI
-* Path variable sends data through the request path itself. It is the same for request parameter approach: You use a path variable to send a small quantity of data. 
-* The HTTP request body is mainly used to send larger quantity of data
-
-
-
-##### Request parameters
-
-
-* Common use case: Filtering or search conditions
-* Say you have a product: You want users to search for color, size and style: these would be a good fit for request parameters
-* When setting HTTP request parameters, you extend the path with a ? symbol. For example see below: 
+> business logic is encapsulated in the PersonService class
 
 ```aidl
-@Controller
-@RequestMapping("/home")
-public String home(@RequestParam String color, Model page){ 
-    page.addAttribute("username", "Katy");
-    return "home.html";
-    
-    
-http://localhost:8080/home?color=blue
+    public PersonDTO fetchPersonByName(String name){
+        Map<String, Object> personParameters = Map.of("name",name);
 
-
+        return this.neo4jClient.query(fetchPersonByNameQuery)
+                .in(database)
+                .fetchAs(PersonDTO.class)
+                .mappedBy(toPersonDTO)
+                .one().orElse(null);
+    }
 ```
 
-
-#### Another example
-
-
-```
-@Controller
-@RequestMapping("/")
-public String home(@RequestParam String color, @RequestParam String size, Model page){
-page.addAttribute("size, size);
-page.addAttribute("color", color);
-return "home.html";
-}
-
-http://localhost:8080/home?size=L&color=blue
-
-
-```
-
-
-### Path variables 
-
-* Using path variables is also a way of sending data from client to server. Instead of using the HTTP request parameters, you directly set variable values in path
-* You don't identify the value with a key, you identify it with positioning
-* Recommended only for mandatory variables
-* Avoid setting too many
-```aidl
-# Request Parameters
-
-http://localhost:8080/home?color=blue
-
-# Path variables:
-http://localhost:8080/home/blue
-
-```
+> * You must pass a mapping BiFunction to Marshall the result of your Cypher query (which is returned as a Record type) into a POJO (plain old java object).
 
 
 ```aidl
-@Controller
-@RequestMapping("/home/{sizee}")
-public String Main(@PathVariable String size, @RequestParameter String color, Page page){
-page.addAttribute(color);
-page.addAttribute(size);
-return "home.html";
 
-}
+    BiFunction<TypeSystem,Record,PersonDTO> toPersonDTO = (typeSystem, record) ->
+    {
+        var result_map = record.get(0).asMap();
+        var name = (String) result_map.get("name");
+        var age = ((Long) result_map.get("age")).intValue();
+
+        PersonDTO personDTO = new PersonDTO(name,age);
+        return personDTO;
+    };
 
 ```
 
 
-
-Quick review of HTTP methods:
-
-> Get : the Client needs to get data from server
- 
-> Post: Client needs to send new data to server
-
-> Put: Client needs to change an existing record
-
-> Delete: Client request deletes data on the server ide
-
-> Patch: Client needs to partially change a data record
+> * The controller actually implements the RestService. Below is a get action to fetch all Person Nodes in the Graph
 
 
+```aidl
+    @GetMapping("/people")
+    public Collection<PersonDTO> getPeople(){
+
+        return personService.fetchAllPeople();
 
 
+    }
+
+
+```
