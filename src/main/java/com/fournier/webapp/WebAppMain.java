@@ -1,13 +1,12 @@
 package com.fournier.webapp;
 
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class WebappApplication {
+public class WebAppMain {
     public static void main(String[] args) {
-        SpringApplication.run(WebappApplication.class, args);
+        SpringApplication.run(WebAppMain.class, args);
     }
 
 }
