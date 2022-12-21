@@ -20,7 +20,7 @@
     }
 ```
 
-> You must pass a mapping BiFunction to Marshall the result of your Cypher query (which is returned as a Record type) into a POJO (plain old java object).
+> You must pass a mapping BiFunction to .fetchAs() functiona above so you can marshall the result of your Cypher query (which is returned as a Record type) into a POJO (plain old java object).
 
 
 ```java
