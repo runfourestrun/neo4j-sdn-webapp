@@ -42,13 +42,11 @@
 
 
 ```java
-    @GetMapping("/people")
-    public Collection<PersonDTO> getPeople(){
-
-        return personService.fetchAllPeople();
-
-
-    }
+    // Value is mandatory, so PathVariable makes sense here. If it wasn't mandatory, RequestParam would have been a better choice.
+@GetMapping(value= "/person/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
+public PersonDTO findByName(@PathVariable("name") String name){
+        return personService.fetchPersonByName(name);
+        }
 
 
 ```
